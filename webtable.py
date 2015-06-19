@@ -65,14 +65,14 @@ class WebTable(object):
         Return the HTML code for the dropdown list
         Will not yield checkboxes for uncertainty quantities
         """
-        toggleMenu = ''
+        toggleMenu = r'<ul class="dropdown-menu" id="show-hide-columns">'
         for colname in self.table.colnames:
             if self.table.columns[colname].isUncertaintyWT == False:
                 toggleMenu += (r'<li><label class="checkbox">' + 
                     r'<input name="{0.name}" type="checkbox"/>' + 
                     r'{0.name}</label></li>').format(
                     self.table.columns[colname])
-
+        toggleMenu += r'</ul>'
         return toggleMenu
 
     def getTableAsHTML(self):
@@ -99,7 +99,7 @@ class WebTable(object):
                     headerrow += (r'<th class="{0.name}" ' +
                         r'title="{0.description}">{0.name}</th>' + 
                         r'<th class="{0.name}" ' +
-                        r'title="{0.description}">±ẟ</th>').format(
+                        r'title="{0.description} error">±ẟ</th>').format(
                         self.table.columns[colname])
                     unitsrow += (r'<td class="{0.name}" colspan=2 ' + 
                         r'title="{0.description}">{0.unit}</td>').format(
@@ -109,7 +109,7 @@ class WebTable(object):
                     #uncertainty only
                     headerrow += (r'<th class="{0.name}" rowspan=2 ' +
                         r'title="{0.description}">{0.name}</th>' + 
-                        r'<th class="{0.name}" rowspan=2 ' +
+                        r'<th class="{0.name} error" rowspan=2 ' +
                         r'title="{0.description}">±ẟ</th>').format(
                         self.table.columns[colname])
 
