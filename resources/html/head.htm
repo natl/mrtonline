@@ -13,9 +13,15 @@
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/mycss.css" rel="stylesheet">
+    <link href="css/tablecloth.css" rel="stylesheet">
 
     <!-- javascript imports -->
-    <script src="js/jquery-latest.js"></script>
+    <script src="js/jquery-latest.min.js"></script>
+    <script src="js/dygraphs-combined.js"></script>
+    <script src="js/jquery.tablesorter.js"></script>
+    <script src="js/jquery.metadata.js"></script>
+    <script src="js/jquery.tablecloth.js"></script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -24,7 +30,15 @@
     <![endif]-->
 <script type="text/javascript">
     $(document).ready(function(){
-          var pages = ["#home", "#table"] //WRITE ANY ADDITIONAL PAGES HERE
+
+          //SORTABLE
+          $("table.data-table").tablecloth({
+            sortable:true
+            });
+
+          //PAGE CHANGING
+          //WRITE ANY ADDITIONAL PAGES IN HERE
+          var pages = ["#home", "#datatable", "#plotting"]
 
           function changer(pagename){
             for (i=0; i!=pages.length; i++){
@@ -41,6 +55,73 @@
               console.log(event.data);
             });
           }
+
+          //TableColumns (Adapted from Ligo 2 years)
+          //initial set up
+          $('#show-hide-columns input[type=checkbox]').each(function () {
+            var isChecked = $(this).prop('checked');
+            if (isChecked)
+              $('.' + this.name).stop().show();
+            else
+              $('.' + this.name).stop().hide();
+          });
+          //dynamic effects
+          $('#show-hide-columns input[type=checkbox]').change(function () {
+            var isChecked = $(this).prop('checked');
+            if (isChecked)
+              $('.' + this.name).stop().show();
+            else
+              $('.' + this.name).stop().hide();
+          });
+
+          //DYGRAPHS
+          //Get Units Map
+          /*INSERT_UNITS_MAP*/
+
+          function getColumnData(colname){
+            var data=[];
+            $('td.'+colname+'.value').each(function (){
+              data.push(parseFloat($(this).text()));
+            });
+
+            return data;
+          };
+
+          var graph = document.getElementById("graph_div");
+
+          var plotButton = document.getElementById("plot");
+          var xselect = document.getElementById("xdataselector");
+          var yselect = document.getElementById("ydataselector");
+
+          function plot(){
+            var xvar = xselect.value;
+            var yvar = yselect.value;
+            console.log(xvar);
+            console.log(yvar);
+            var data = [getColumnData(xvar), getColumnData(yvar)];
+            var xunit = unitsMap[xvar];
+            var yunit = unitsMap[yvar];
+
+            console.log(data);
+            //Transpose array
+            var plottingData = data[0].map(function(col, i) { 
+              return data.map(function(row) { 
+                  return row[i] 
+              })
+            });
+
+            new Dygraph(graph, plottingData, {
+              ylabel: yvar + " (" + yunit + ")",
+              xlabel: xvar + " (" + xunit + ")",
+              drawPoints: true,
+              strokeWidth: 0.0,
+            });
+
+          }
+
+
+          plotButton.onclick = plot;
+
         });
     </script>
 

@@ -24,11 +24,11 @@ Byte-by-byte Description of file: table5.mrt
   87- 92 F6.2   h        tDel          Recurrence time
   94- 98 F5.2   h        eTDel         Recurrence time error
  100-105 F6.2   %        conv          Convexity
- 107-111 F5.2   %        uConv         Convexity error
+ 107-111 F5.2   %        eConv         Convexity error
  113-118 F6.3   s        r1090         10%-90% rise time
  120-124 F5.3   s        eR1090        10%-90% rise time error
  126-131 F6.3   s        r2590         25%-90% rise time
- 133-137 F5.3   s        uR2590        25%-90% rise time error
+ 133-137 F5.3   s        eR2590        25%-90% rise time error
  139-143 F5.2   --       singAlpha     Power law decay index
  145-148 F4.2   --       eSingAlpha    Power law decay index error
  150-154 F5.2   s        singDecay     Exponential decay timescale

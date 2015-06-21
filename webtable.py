@@ -69,8 +69,8 @@ class WebTable(object):
         for colname in self.table.colnames:
             if self.table.columns[colname].isUncertaintyWT == False:
                 toggleMenu += (r'<li><label class="checkbox">' + 
-                    r'<input name="{0.name}" type="checkbox"/>' + 
-                    r'{0.name}</label></li>').format(
+                    r'<input name="{0.name}" type="checkbox" checked>' + 
+                    r'{0.name}</label></li>'+'\n').format(
                     self.table.columns[colname])
         toggleMenu += r'</ul>'
         return toggleMenu
@@ -83,7 +83,8 @@ class WebTable(object):
         n_entries = len(key)
         n_cols = len(self.table.columns)
         #make the table start code
-        tableString += (r'<table class="table table-hover table-condensed '+
+        tableString += (r'<table class="data-table table table-hover ' + 
+            r'table-condensed '+
             r'tablesorter table-striped">')
 
         #add the header
@@ -98,9 +99,9 @@ class WebTable(object):
                     #uncertainty+units
                     headerrow += (r'<th class="{0.name}" ' +
                         r'title="{0.description}">{0.name}</th>' + 
-                        r'<th class="{0.name}" ' +
-                        r'title="{0.description} error">±ẟ</th>').format(
-                        self.table.columns[colname])
+                        r'<th class="{0.name} error text-muted" ' +
+                        r'title="{0.description}">&plusmn;&delta;</th>'
+                        ).format(self.table.columns[colname])
                     unitsrow += (r'<td class="{0.name}" colspan=2 ' + 
                         r'title="{0.description}">{0.unit}</td>').format(
                         self.table.columns[colname])
@@ -109,8 +110,8 @@ class WebTable(object):
                     #uncertainty only
                     headerrow += (r'<th class="{0.name}" rowspan=2 ' +
                         r'title="{0.description}">{0.name}</th>' + 
-                        r'<th class="{0.name} error" rowspan=2 ' +
-                        r'title="{0.description}">±ẟ</th>').format(
+                        r'<th class="{0.name} error text-muted " rowspan=2 ' +
+                        r'title="{0.description}">&plusmn;&delta;</th>').format(
                         self.table.columns[colname])
 
                 if hasUnit and (not hasUncertainty):
@@ -138,19 +139,42 @@ class WebTable(object):
             for colname in self.table.colnames:
                 if self.table.columns[colname].isUncertaintyWT == False:
                     #check this isn't an uncertainty column
-                    tableString += r'<td class="{0.name}">{1}</td>'.format(
+                    tableString += (r'<td class="{0.name} value">' +
+                        '{1}</td>').format(
                         self.table.columns[colname],
                         self.table.columns[colname][ii].__str__().strip())
                     if self.table.columns[colname].hasUncertaintyWT == True:
                         #print the associated uncertainty column if it exists
                         ucolname = self.getUColName(colname)
-                        tableString += r'<td class="{0.name}">{1}</td>'.format(
+                        tableString += (r'<td class="{0.name} error ' + 
+                            r'text-muted">{1}</td>').format(
                             self.table.columns[colname],
                             self.table.columns[ucolname][ii].__str__().strip())
             tableString += r'</tr>'+'\n'
         tableString += r'</tbody></table>'
 
         return tableString
+
+    def getPlottingDropDownList(self, listname = "dropdown"):
+        """
+        """
+        dropdown = r'<select id="{0}">'.format(listname) + '\n'
+        for colname in self.table.colnames:
+            if self.table.columns[colname].isUncertaintyWT == False:
+                dropdown += (r'<option value="{0.name}">{0.name}'+
+                    r'</option>').format(self.table.columns[colname])+'\n'
+        dropdown += r'</select>'+'\n'
+        return dropdown
+
+    def getUnitsMap(self):
+        """
+        """
+        mapDefinition = r'var unitsMap={};'+'\n'
+        for colname in self.table.colnames:
+            mapDefinition += r'unitsMap["{0.name}"] = "{0.unit}";'.format(
+                self.table.columns[colname])+'\n'
+        return mapDefinition
+
 
 
 
