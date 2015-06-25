@@ -108,6 +108,10 @@ unitsMap["alpha"] = "--";
 unitsMap["eAlpha"] = "--";
 unitsMap["flag"] = "--";
 
+          
+          function isNumber(n) {
+            return !isNaN(parseFloat(n)) && isFinite(n);
+          }
 
           function getColumnData(colname){
             var data=[];
@@ -129,9 +133,15 @@ unitsMap["flag"] = "--";
             var yvar = yselect.value;
             console.log(xvar);
             console.log(yvar);
-            var data = [getColumnData(xvar), getColumnData(yvar)];
+            var xdata = getColumnData(xvar);
+            var ydata = getColumnData(yvar);
+            var data = [xdata, ydata];
             var xunit = unitsMap[xvar];
             var yunit = unitsMap[yvar];
+            var xmin = Math.min(xdata.filter(isNumber));
+            var xmax = Math.max(xdata.filter(isNumber));
+            var ymin = Math.min(ydata.filter(isNumber));
+            var ymax = Math.max(ydata.filter(isNumber));
 
             console.log(data);
             //Transpose array
@@ -146,6 +156,8 @@ unitsMap["flag"] = "--";
               xlabel: xvar + " (" + xunit + ")",
               drawPoints: true,
               strokeWidth: 0.0,
+              xRangePad: 10, 
+              yRangePad: 10, 
             });
 
           }
@@ -823,7 +835,9 @@ THIS IS THE PLOTTING PAGE, FEEL FREE TO CUSTOMIZE
     </div>
 
     <div class="graph-canvas panel panel-default">
-      <div id="graph_div" style="width:600px; height:300px;"></div>
+      <center>
+        <div id="graph_div" style="width:800px; height:600px;"></div>
+      </center>
     </div>
   </div>
 

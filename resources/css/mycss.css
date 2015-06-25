@@ -10,4 +10,8 @@
     text-align: center;
 }
 
-
+.graph-holder div {
+  width: 100%;
+  padding-bottom: 56.25%; 
+  text-align: center;
+}
