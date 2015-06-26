@@ -15,13 +15,19 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/mycss.css" rel="stylesheet">
     <link href="css/tablecloth.css" rel="stylesheet">
+    
 
+    
     <!-- javascript imports -->
     <script src="js/jquery-latest.min.js"></script>
     <script src="js/dygraphs-combined.js"></script>
     <script src="js/jquery.tablesorter.js"></script>
     <script src="js/jquery.metadata.js"></script>
     <script src="js/jquery.tablecloth.js"></script>
+
+    <!--DataTables-->
+    <link href="https://cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css" rel="stylesheet">
+    <script src="http://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -30,12 +36,18 @@
     <![endif]-->
 <script type="text/javascript">
     $(document).ready(function(){
-
-          //SORTABLE
-          $("table.data-table").tablecloth({
-            sortable:true
+          
+          var dataTable = $("table.data-table").DataTable( {
+            paging: false,
+            searching: false,
+            "orderCellsTop": true,
             });
 
+          //SORTABLE
+          /*$("table.data-table").tablecloth({
+            sortable:true
+            });
+           */
           //PAGE CHANGING
           //WRITE ANY ADDITIONAL PAGES IN HERE
           var pages = ["#home", "#datatable", "#plotting"]
@@ -195,10 +207,10 @@ unitsMap["flag"] = "--";
 <li><label class="checkbox"><input name="tau" type="checkbox" checked>tau</label></li>
 <li><label class="checkbox"><input name="tDel" type="checkbox" checked>tDel</label></li>
 <li><label class="checkbox"><input name="conv" type="checkbox" checked>conv</label></li>
-<li><label class="checkbox"><input name="r1090" type="checkbox" checked>r1090</label></li>
-<li><label class="checkbox"><input name="r2590" type="checkbox" checked>r2590</label></li>
-<li><label class="checkbox"><input name="singAlpha" type="checkbox" checked>singAlpha</label></li>
-<li><label class="checkbox"><input name="singDecay" type="checkbox" checked>singDecay</label></li>
+<li><label class="checkbox"><input name="r1090" type="checkbox" >r1090</label></li>
+<li><label class="checkbox"><input name="r2590" type="checkbox" >r2590</label></li>
+<li><label class="checkbox"><input name="singAlpha" type="checkbox" >singAlpha</label></li>
+<li><label class="checkbox"><input name="singDecay" type="checkbox" >singDecay</label></li>
 <li><label class="checkbox"><input name="alpha" type="checkbox" checked>alpha</label></li>
 <li><label class="checkbox"><input name="flag" type="checkbox" checked>flag</label></li>
 </ul>
@@ -266,8 +278,8 @@ or maybe: <hr class="featurette-divider">
 THIS IS THE TABLE PAGE, FEEL FREE TO CUSTOMIZE
 -->
 
-<div id="datatable" class="container">
-
+<div id="datatable" class="container-fluid">
+  <div class="container">
 
   <div class="jumbotron">
     <h1>Check out the table guys!</h1>
@@ -286,10 +298,13 @@ THIS IS THE TABLE PAGE, FEEL FREE TO CUSTOMIZE
       </div>
     </div>
   </div>
-  <div class="mytable panel panel-default">
-  <table class="data-table table table-hover table-condensed tablesorter table-striped"><thead>
+  </div>
+  <div class="mytable table-responsive container-fluid panel-default panel">
+  <table class="data-table table table-hover table-condensed tablesorter table-striped">
+      <thead>
 <tr><th class="model" title="Model ID">model</th><th class="num" title="Number of simulated bursts">num</th><th class="z" title="Metallicity mass fraction">z</th><th class="h" title="Hydrogen mass fraction">h</th><th class="lAcc" title="Accretion luminosity (1)">lAcc</th><th class="burstLength" title="Burst duration">burstLength</th><th class="burstLength error text-muted" title="Burst duration">&plusmn;&delta;</th><th class="peakLum" title="Peak lumonisity">peakLum</th><th class="peakLum error text-muted" title="Peak lumonisity">&plusmn;&delta;</th><th class="persLum" title="Persistent luminsoity">persLum</th><th class="persLum error text-muted" title="Persistent luminsoity">&plusmn;&delta;</th><th class="fluence" title="Fluence">fluence</th><th class="fluence error text-muted" title="Fluence">&plusmn;&delta;</th><th class="tau" title="Equivalent burst duration (tau)">tau</th><th class="tau error text-muted" title="Equivalent burst duration (tau)">&plusmn;&delta;</th><th class="tDel" title="Recurrence time">tDel</th><th class="tDel error text-muted" title="Recurrence time">&plusmn;&delta;</th><th class="conv" title="Convexity">conv</th><th class="conv error text-muted" title="Convexity">&plusmn;&delta;</th><th class="r1090" title="10%-90% rise time">r1090</th><th class="r1090 error text-muted" title="10%-90% rise time">&plusmn;&delta;</th><th class="r2590" title="25%-90% rise time">r2590</th><th class="r2590 error text-muted" title="25%-90% rise time">&plusmn;&delta;</th><th class="singAlpha" title="Power law decay index">singAlpha</th><th class="singAlpha error text-muted" title="Power law decay index">&plusmn;&delta;</th><th class="singDecay" title="Exponential decay timescale">singDecay</th><th class="singDecay error text-muted" title="Exponential decay timescale">&plusmn;&delta;</th><th class="alpha" title="Fluence ratio (alpha)">alpha</th><th class="alpha error text-muted" title="Fluence ratio (alpha)">&plusmn;&delta;</th><th class="flag" title="Analysis quality flag (2)">flag</th></tr>
-<tr><th class="model" title="Model ID">--</td><th class="num" title="Number of simulated bursts">--</td><th class="z" title="Metallicity mass fraction">%</td><th class="h" title="Hydrogen mass fraction">%</td><th class="lAcc" title="Accretion luminosity (1)">--</td><td class="burstLength" colspan=2 title="Burst duration">s</td><td class="peakLum" colspan=2 title="Peak lumonisity">1e+30 W</td><td class="persLum" colspan=2 title="Persistent luminsoity">1e+28 W</td><td class="fluence" colspan=2 title="Fluence">1e+32 W</td><td class="tau" colspan=2 title="Equivalent burst duration (tau)">s</td><td class="tDel" colspan=2 title="Recurrence time">h</td><td class="conv" colspan=2 title="Convexity">%</td><td class="r1090" colspan=2 title="10%-90% rise time">s</td><td class="r2590" colspan=2 title="25%-90% rise time">s</td><td class="singAlpha" colspan=2 title="Power law decay index">--</td><td class="singDecay" colspan=2 title="Exponential decay timescale">s</td><td class="alpha" colspan=2 title="Fluence ratio (alpha)">--</td><th class="flag" title="Analysis quality flag (2)">--</td></tr></thead>
+<tr><td class="model" title="Model ID">--</td><td class="num" title="Number of simulated bursts">--</td><td class="z" title="Metallicity mass fraction">%</td><td class="h" title="Hydrogen mass fraction">%</td><td class="lAcc" title="Accretion luminosity (1)">--</td><td class="burstLengtd" colspan=2 title="Burst duration">s</td><td class="peakLum" colspan=2 title="Peak lumonisity">1e+30 W</td><td class="persLum" colspan=2 title="Persistent luminsoity">1e+28 W</td><td class="fluence" colspan=2 title="Fluence">1e+32 W</td><td class="tau" colspan=2 title="Equivalent burst duration (tau)">s</td><td class="tDel" colspan=2 title="Recurrence time">h</td><td class="conv" colspan=2 title="Convexity">%</td><td class="r1090" colspan=2 title="10%-90% rise time">s</td><td class="r2590" colspan=2 title="25%-90% rise time">s</td><td class="singAlpha" colspan=2 title="Power law decay index">--</td><td class="singDecay" colspan=2 title="Exponential decay timescale">s</td><td class="alpha" colspan=2 title="Fluence ratio (alpha)">--</td><td class="flag" title="Analysis quality flag (2)">--</td></tr>
+</thead>
 <tbody><tr class="a3"><td class="model value">a3</td><td class="num value">15</td><td class="z value">0.1</td><td class="h value">75.9</td><td class="lAcc value">0.1</td><td class="burstLength value">283.3</td><td class="burstLength error text-muted">16.7</td><td class="peakLum value">10.33</td><td class="peakLum error text-muted">0.74</td><td class="persLum value">2.73</td><td class="persLum error text-muted">0.08</td><td class="fluence value">5.99</td><td class="fluence error text-muted">0.3</td><td class="tau value">58.2</td><td class="tau error text-muted">5.1</td><td class="tDel value">3.13</td><td class="tDel error text-muted">0.19</td><td class="conv value">1.76</td><td class="conv error text-muted">1.25</td><td class="r1090 value">5.482</td><td class="r1090 error text-muted">0.406</td><td class="r2590 value">4.304</td><td class="r2590 error text-muted">0.103</td><td class="singAlpha value">0.71</td><td class="singAlpha error text-muted">0.03</td><td class="singDecay value">33.43</td><td class="singDecay error text-muted">3.48</td><td class="alpha value">39.5</td><td class="alpha error text-muted">1.8</td><td class="flag value">0</td></tr>
 <tr class="a4"><td class="model value">a4</td><td class="num value">4</td><td class="z value">0.1</td><td class="h value">75.9</td><td class="lAcc value">0.02</td><td class="burstLength value">227.8</td><td class="burstLength error text-muted">10.2</td><td class="peakLum value">29.5</td><td class="peakLum error text-muted">0.8</td><td class="persLum value">0.7</td><td class="persLum error text-muted">0.04</td><td class="fluence value">19.1</td><td class="fluence error text-muted">0.61</td><td class="tau value">64.8</td><td class="tau error text-muted">3.7</td><td class="tDel value">53.97</td><td class="tDel error text-muted">0.94</td><td class="conv value">7.82</td><td class="conv error text-muted">0.58</td><td class="r1090 value">5.57</td><td class="r1090 error text-muted">0.054</td><td class="r2590 value">4.819</td><td class="r2590 error text-muted">0.058</td><td class="singAlpha value">0.72</td><td class="singAlpha error text-muted">0.01</td><td class="singDecay value">35.08</td><td class="singDecay error text-muted">1.8</td><td class="alpha value">43.2</td><td class="alpha error text-muted">0.1</td><td class="flag value">0</td></tr>
 <tr class="a5"><td class="model value">a5</td><td class="num value">12</td><td class="z value">2.0</td><td class="h value">70.48</td><td class="lAcc value">0.1</td><td class="burstLength value">123.0</td><td class="burstLength error text-muted">5.1</td><td class="peakLum value">15.2</td><td class="peakLum error text-muted">0.5</td><td class="persLum value">4.55</td><td class="persLum error text-muted">0.25</td><td class="fluence value">4.41</td><td class="fluence error text-muted">0.04</td><td class="tau value">29.1</td><td class="tau error text-muted">0.8</td><td class="tDel value">2.69</td><td class="tDel error text-muted">0.03</td><td class="conv value">12.41</td><td class="conv error text-muted">0.96</td><td class="r1090 value">5.027</td><td class="r1090 error text-muted">0.108</td><td class="r2590 value">4.52</td><td class="r2590 error text-muted">0.064</td><td class="singAlpha value">0.93</td><td class="singAlpha error text-muted">0.02</td><td class="singDecay value">23.74</td><td class="singDecay error text-muted">1.85</td><td class="alpha value">45.9</td><td class="alpha error text-muted">0.6</td><td class="flag value">0</td></tr>
@@ -757,7 +772,6 @@ THIS IS THE TABLE PAGE, FEEL FREE TO CUSTOMIZE
 </tbody></table>
   </div>
 
-  
 
 </div>
 <!-- 

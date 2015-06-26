@@ -119,7 +119,7 @@ class WebTable(object):
                     headerrow += (r'<th class="{0.name}" ' +
                         r'title="{0.description}">{0.name}</th>').format(
                         self.table.columns[colname])
-                    unitsrow += (r'<th class="{0.name}" ' + 
+                    unitsrow += (r'<td class="{0.name}" ' + 
                         r'title="{0.description}">{0.unit}</td>').format(
                         self.table.columns[colname])
                 if (not hasUnit) and (not hasUncertainty):

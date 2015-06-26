@@ -26,7 +26,7 @@ def main(filename, errorPrefix):
     """
     webtable = WebTable(filename, errorPrefix)
 
-    outfile = open("resources/index.htm", 'w')
+    outfile = open("output/index.htm", 'w')
     
    
     headpage =  file2string("resources/html/head.htm")
@@ -56,6 +56,8 @@ def main(filename, errorPrefix):
     outfile.write(plotPage)
 
     outfile.write(file2string("resources/html/footer.htm"))
+
+    #copy resources to output directory:
 
 
 def file2string(filename):
