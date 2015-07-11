@@ -16,12 +16,19 @@
     <link href="css/mycss.css" rel="stylesheet">
     <link href="css/tablecloth.css" rel="stylesheet">
 
-    <!-- javascript imports -->
+    <!-- 
+    TODO: COMPLETE MIGRATION TO DATATABLES, HOST THE JS LOCALLY
+    javascript imports -->
     <script src="js/jquery-latest.min.js"></script>
     <script src="js/dygraphs-combined.js"></script>
     <script src="js/jquery.tablesorter.js"></script>
     <script src="js/jquery.metadata.js"></script>
     <script src="js/jquery.tablecloth.js"></script>
+    
+    <!--DataTables-->
+        <link href="https://cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css" rel="stylesheet">
+            <script src="http://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -30,12 +37,16 @@
     <![endif]-->
 <script type="text/javascript">
     $(document).ready(function(){
-
-          //SORTABLE
+          var dataTable = $("table.data-table").DataTable( {
+            paging: false,
+            searching: false,
+            "orderCellsTop": true,
+          });
+          /*//SORTABLE
           $("table.data-table").tablecloth({
             sortable:true
             });
-
+          */
           //PAGE CHANGING
           //WRITE ANY ADDITIONAL PAGES IN HERE
           var pages = ["#home", "#datatable", "#plotting"]
