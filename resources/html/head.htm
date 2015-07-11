@@ -95,10 +95,13 @@
           var yselect = document.getElementById("ydataselector");
 
           function plot(){
+            //Called to plot the dygraph, pulls data from the table with
+            //getColumnData. If the data set is robust, log scale option
+            //can be uncommented (any values <=0 confuse dygraphs)
             var xvar = xselect.value;
             var yvar = yselect.value;
-            var xlog = document.getElementById("xlog").checked;
-            var ylog = document.getElementById("ylog").checked;
+            //var xlog = document.getElementById("xlog").checked;
+            //var ylog = document.getElementById("ylog").checked;
             console.log(xvar);
             console.log(yvar);
             var xdata = getColumnData(xvar);
@@ -114,6 +117,8 @@
                   return row[i] 
               })
             });
+            plottingData.sort(sort2d);
+
 
             new Dygraph(graph, plottingData, {
               ylabel: yvar + " (" + yunit + ")",
@@ -122,16 +127,25 @@
               strokeWidth: 0.0,
               xRangePad: 10, 
               yRangePad: 10, 
-              axes: {x : { logscale: xlog },
-                     y : { logscale: ylog }},
+              //axes: {x : { logscale: xlog },
+              //       y : { logscale: ylog }},
             });
 
           }
 
 
           plotButton.onclick = plot;
-
         });
+
+    //2-d array sorter
+    function sort2d(a,b) {
+        if (a[0] == b[0] ){
+            return 0;
+        }
+        else {
+            return (a[0] < b[0]) ? -1: 1;
+        }
+    }
     </script>
 
 

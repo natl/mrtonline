@@ -21,6 +21,7 @@ import os
 import shutil
 
 cssDir = r'resources/css'
+fontDir = r'resources/fonts'
 jsDir = r'resources/js'
 helpStrings = ['-h', '--help']
 usage = '''Usage: mrtonline.py FILENAME OUTPUT_DIR [-e ERROR_PREFIX] [-r]\n
@@ -65,6 +66,7 @@ def main(filename, outputDir, errorPrefix, overwrite):
 
     #copy resources to output directory:
     try:
+        shutil.copytree(fontDir, outputDir+"/fonts")
         shutil.copytree(cssDir, outputDir+"/css")
         shutil.copytree(jsDir, outputDir+"/js")
     except OSError:
