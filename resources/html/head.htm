@@ -97,6 +97,8 @@
           function plot(){
             var xvar = xselect.value;
             var yvar = yselect.value;
+            var xlog = document.getElementById("xlog").checked;
+            var ylog = document.getElementById("ylog").checked;
             console.log(xvar);
             console.log(yvar);
             var xdata = getColumnData(xvar);
@@ -120,6 +122,8 @@
               strokeWidth: 0.0,
               xRangePad: 10, 
               yRangePad: 10, 
+              axes: {x : { logscale: xlog },
+                     y : { logscale: ylog }},
             });
 
           }

@@ -17,16 +17,22 @@
 from __future__ import division, unicode_literals, print_function
 from webtable import WebTable
 import sys
+import os
+import shutil
 
+cssDir = r'resources/css'
+jsDir = r'resources/js'
 helpStrings = ['-h', '--help']
-usage = '''Usage: mrtonline.py FILENAME ERROR_PREFIX'''
+usage = '''Usage: mrtonline.py FILENAME OUTPUT_DIR [-e ERROR_PREFIX] [-r]\n
+-r enables overwrite of output directory'''
 
-def main(filename, errorPrefix):
+def main(filename, outputDir, errorPrefix, overwrite):
     """
     """
+
     webtable = WebTable(filename, errorPrefix)
-
-    outfile = open("output/index.htm", 'w')
+    
+    outfile = open(outputDir+"/index.htm", 'w')
     
    
     headpage =  file2string("resources/html/head.htm")
@@ -58,7 +64,12 @@ def main(filename, errorPrefix):
     outfile.write(file2string("resources/html/footer.htm"))
 
     #copy resources to output directory:
-
+    try:
+        shutil.copytree(cssDir, outputDir+"/css")
+        shutil.copytree(jsDir, outputDir+"/js")
+    except OSError:
+        print("CSS and js directories seem to already exist, they have not "+
+            "had new code added to them")
 
 def file2string(filename):
     """
@@ -71,16 +82,41 @@ def file2string(filename):
 
 
 if __name__ == "__main__":
-    if sys.argv[1] in helpStrings:
+
+    if len(set(sys.argv) & set(helpStrings)) !=0 :
         print(usage)
         sys.exit()
 
+
     assert sys.argv[1], usage
     filename = sys.argv[1]
-    try:
-        errorPrefix = sys.argv[2]
-    except IndexError:
-        errorPrefix = ''
+    #Check filename is valid
+    assert os.path.exists(filename), '''Error: input does not exist'''
 
-    main(filename, errorPrefix)
+    assert sys.argv[2], usage
+    outputDir = sys.argv[2]
+    #remove any trailing slash
+    if outputDir[-1] == r"/": outputDir = outputDir[:(len(outputDir)-1)]
+
+    #The rest of the verifaction for the output dir is done later
+    
+    #options
+    #error prefix
+    errorPrefix = ""
+    if '-e' in sys.argv:
+        errorPrefix = sys.argv[ sys.argv.index('-e')+1 ]
+
+    #overwrite
+    overwrite = False
+    if '-r' in sys.argv:
+        overwrite = True
+
+    if os.path.exists(outputDir):
+        if overwrite == False: sys.exit('Output directory exists, use -r to '+
+            'allow it to be overwritten')
+        if not os.path.isdir(outputDir): sys.exit('Output is not a directory')
+    else:
+        os.mkdir(outputDir)
+
+    main(filename, outputDir, errorPrefix, overwrite)
 
